@@ -23,6 +23,16 @@ class HomeController extends Controller
      */
     public function index()
     {
+        //データを取得
+        $memos = Memo::select('memos.*')
+        //  使っているuser_idがログインしているuserと一致するところ
+            ->where('user_id', '=', \Auth::id())
+            //deleted_atが空だけのもの
+            ->whereNull('deleted_at')
+            //メモの並び順(更新か新しいもの順)
+            ->orderBy('updated_at', 'DESC')//ASC小さい順 DESC大きい順
+            ->get();
+
         return view('create');
     }
     public function store(Request $request)
