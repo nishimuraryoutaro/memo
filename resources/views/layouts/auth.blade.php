@@ -75,31 +75,8 @@
             </div>
         </nav>
 
-        <main class="">
-            <div class="row">
-                <div class="col-md-6 p-0">
-                    <div class="card">
-                        <h5 class="card-header">1</h5>
-                        <div class="card-body">
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 p-0">
-                    <div class="card">
-                        <h5 class="card-header">2</h5>
-                        <div class="card-body">
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <h5 class="card-header"></h5>
-                    @yield('content')
-                </div>
-            </div>
+        <main class="py-4">
+            @yield('content')
         </main>
     </div>
 </body>
