@@ -90,8 +90,10 @@
                     <div class="card">
                         <h5 class="card-header">2</h5>
                         <div class="card-body">
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+                          @foreach ( $memos as $memo )
+                            <a href="/edit/{{ $memo['id'] }}" class="card-text d-block">{{ $memo['content'] }}</a>
+                          @endforeach
+                          {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
                         </div>
                     </div>
                 </div>

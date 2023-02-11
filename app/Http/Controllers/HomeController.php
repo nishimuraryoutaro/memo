@@ -33,7 +33,7 @@ class HomeController extends Controller
             ->orderBy('updated_at', 'DESC')//ASC小さい順 DESC大きい順
             ->get();
 
-        return view('create');
+        return view('create',compact('memos'));//compactで変数を渡してview側で使えるようにする
     }
     public function store(Request $request)
     {
@@ -46,5 +46,21 @@ class HomeController extends Controller
         //homeにリダイレクト
         return redirect( route('home'));
 
+    }
+    public function edit($id)
+    {
+        //データを取得
+        $memos = Memo::select('memos.*')
+        //  使っているuser_idがログインしているuserと一致するところ
+            ->where('user_id', '=', \Auth::id())
+            //deleted_atが空だけのもの
+            ->whereNull('deleted_at')
+            //メモの並び順(更新か新しいもの順)
+            ->orderBy('updated_at', 'DESC')//ASC小さい順 DESC大きい順
+            ->get();
+        //findでMemosテーブルの主キーからidが一致するのを取得
+        $edit_memo = Memo::find($id);
+
+        return view('edit',compact('memos', 'edit_memo'));//compactで変数を渡してview側で使えるようにする
     }
 }
