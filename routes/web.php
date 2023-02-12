@@ -27,4 +27,5 @@ Route::get('/edit/{id}', [HomeController::class, 'edit'])
 ->name('edit');
 Route::post('/update', [HomeController::class, 'update'])
 ->name('update');
-
+Route::post('/destory', [HomeController::class, 'destory'])
+->name('destory');
