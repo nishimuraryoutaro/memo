@@ -91,7 +91,7 @@
                         <h5 class="card-header">2</h5>
                         <div class="card-body">
                           @foreach ( $memos as $memo )
-                            <a href="/edit/{{ $memo['id'] }}" class="card-text d-block">{{ $memo['content'] }}</a>
+                            <a href="/edit/{{$memo['id']}}"class="card-text d-block">{{ $memo['content'] }}</a>
                           @endforeach
                           {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
                         </div>

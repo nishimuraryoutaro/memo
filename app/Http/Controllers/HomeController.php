@@ -63,4 +63,13 @@ class HomeController extends Controller
 
         return view('edit',compact('memos', 'edit_memo'));//compactで変数を渡してview側で使えるようにする
     }
+    public function update(Request $request)
+    {
+        $posts = $request->all();
+        //dd($posts);
+        //whereがないと全てのデータがupdateされてしまう
+        Memo::where('id', $posts['memo_id'])->update(['content' => $posts['content']]);
+        return redirect( route('home') );
+
+    }
 }
