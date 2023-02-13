@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Memo;
+use App\Models\Tag;
+use App\Models\MemoTag;
+use DB;
 class HomeController extends Controller
 {
     /**
@@ -38,12 +41,20 @@ class HomeController extends Controller
     public function store(Request $request)
     {
         $posts = $request->all();
-        //dd($psots)
         //データベースに入れるにはinsertを使う(配列で定義)
         //カラム名かkey=>'content'と'user_id,, value=取ってき値($postsとAuth::id)
         //\Auth::idはログインしている人のid
-        Memo::insert(['content' => $posts['content'],'user_id' =>\Auth::id()]);
         //homeにリダイレクト
+        //insertすると同時にテーブルに入れたidを取得
+    //タグ機能のトランザクション
+        DB::transaction(function() use($posts){
+            $memo_id = Memo::insertGetId(['content' => $posts['content'],'user_id' =>\Auth::id()]);
+            $tag_exists = Tag::where('user_id', '=', \Auth::id())->where('name', '=', $posts['new_tag'])->exists();
+            if(!empty($posts['new_tag']) && !$tag_exists ){
+                $tag_id = Tag::insertGetId(['user_id' => \Auth::id(), 'name' => $posts['new_tag']]);
+                MemoTag::insert(['memo_id' => $memo_id, 'tag_id' => $tag_id]);
+            }
+    });
         return redirect( route('home'));
 
     }
