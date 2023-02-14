@@ -36,7 +36,12 @@ class HomeController extends Controller
             ->orderBy('updated_at', 'DESC')//ASC小さい順 DESC大きい順
             ->get();
 
-        return view('create',compact('memos'));//compactで変数を渡してview側で使えるようにする
+        $tags = Tag::where('user_id', '=', \Auth::id())
+            ->whereNull('deleted_at')
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return view('create',compact('memos', 'tags'));//compactで変数を渡してview側で使えるようにする
     }
     public function store(Request $request)
     {
@@ -54,6 +59,11 @@ class HomeController extends Controller
                 $tag_id = Tag::insertGetId(['user_id' => \Auth::id(), 'name' => $posts['new_tag']]);
                 MemoTag::insert(['memo_id' => $memo_id, 'tag_id' => $tag_id]);
             }
+            if(!empty($posts['tags'][0])){
+                foreach($posts['tags'] as $tag){
+                    MemoTag::insert(['memo_id' => $memo_id, 'tag_id' =>$tag]);
+                }
+        }
     });
         return redirect( route('home'));
 
@@ -77,9 +87,13 @@ class HomeController extends Controller
     public function update(Request $request)
     {
         $posts = $request->all();
-        //dd($posts);
+        dd($posts);
+        DB::transaction(function () use($posts){
+           Memo::where('id', $posts['memo_id'])->update(['content' => $posts['content']]);
+           MemoTag::where('memo_id', '=', $posts['memo_id'])->delete();
+        });
         //whereがないと全てのデータがupdateされてしまう
-        Memo::where('id', $posts['memo_id'])->update(['content' => $posts['content']]);
+
         return redirect( route('home') );
 
     }

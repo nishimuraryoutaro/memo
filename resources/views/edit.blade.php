@@ -14,8 +14,7 @@
         @csrf
         <input type="hidden" name="memo_id" value="{{ $edit_memo['id'] }}" />
         <div class="form-group">
-            <textarea class="form-control" name="content" rows="3" placeholder="ここに入力">
-            {{ $edit_memo['content'] }}</textarea>
+            <textarea class="form-control" name="content" rows="3" placeholder="">{{ $edit_memo['content'] }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">更新</button>
     </form>
