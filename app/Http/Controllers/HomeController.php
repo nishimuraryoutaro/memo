@@ -27,21 +27,12 @@ class HomeController extends Controller
     public function index()
     {
         //データを取得
-        $memos = Memo::select('memos.*')
-        //  使っているuser_idがログインしているuserと一致するところ
-            ->where('user_id', '=', \Auth::id())
-            //deleted_atが空だけのもの
-            ->whereNull('deleted_at')
-            //メモの並び順(更新か新しいもの順)
-            ->orderBy('updated_at', 'DESC')//ASC小さい順 DESC大きい順
-            ->get();
-
         $tags = Tag::where('user_id', '=', \Auth::id())
             ->whereNull('deleted_at')
             ->orderBy('id', 'DESC')
             ->get();
 
-        return view('create',compact('memos', 'tags'));//compactで変数を渡してview側で使えるようにする
+        return view('create',compact('tags'));//compactで変数を渡してview側で使えるようにする
     }
     public function store(Request $request)
     {
@@ -71,26 +62,51 @@ class HomeController extends Controller
     public function edit($id)
     {
         //データを取得
-        $memos = Memo::select('memos.*')
-        //  使っているuser_idがログインしているuserと一致するところ
-            ->where('user_id', '=', \Auth::id())
-            //deleted_atが空だけのもの
-            ->whereNull('deleted_at')
-            //メモの並び順(更新か新しいもの順)
-            ->orderBy('updated_at', 'DESC')//ASC小さい順 DESC大きい順
-            ->get();
         //findでMemosテーブルの主キーからidが一致するのを取得
-        $edit_memo = Memo::find($id);
+        $edit_memo = Memo::select('memos.*','tags.id AS tag_id')//memosテーブル全てとtags.idを取得(tag.idだとmemos.idもあるのでtags.idの方が優先されてしまうのでASで別名tag_idでを使う)
+        //memo_tagsテーブルはからの場合があるのでleftjoinでmemo_tags.memo_idとmemos_idが一致するようくっつける
+            ->leftjoin('memo_tags', 'memo_tags.memo_id', '=', 'memos.id')
+            ->leftjoin('tags', 'memo_tags.tag_id', '=', 'tags.id')
+            ->where('memos.user_id', '=', \Auth::id())
+            ->where('memos.id', '=', $id)//memos_idがURLパラメータのidと一致する部分
+            ->whereNull('memos.deleted_at')
+            //deleted_atが空だけのもの
+            ->get();
+        //含まれるタグだけを注視う
 
-        return view('edit',compact('memos', 'edit_memo'));//compactで変数を渡してview側で使えるようにする
+
+        $include_tags = [];
+        foreach($edit_memo as $memo){
+            array_push($include_tags, $memo['tag_id']);
+        }
+
+        $tags = Tag::where('user_id', '=', \Auth::id())
+            ->whereNull('deleted_at')
+            ->orderBy('id', 'DESC')
+            ->get();
+        //compactで変数を渡してview側で使えるようにする
+        return view('edit',compact('edit_memo', 'include_tags', 'tags'));
+
     }
     public function update(Request $request)
     {
         $posts = $request->all();
-        dd($posts);
-        DB::transaction(function () use($posts){
+        //トランザクション
+           DB::transaction(function () use($posts){
            Memo::where('id', $posts['memo_id'])->update(['content' => $posts['content']]);
+            //一旦メモとタグの紐付けを消去
            MemoTag::where('memo_id', '=', $posts['memo_id'])->delete();
+           //再度メモとタグの紐付け
+           foreach ($posts['tags'] as $tag) {
+                MemoTag::insert(['memo_id' => $posts['memo_id'], 'tag_id' => $tag]);
+           }
+           //もし、新しいタグの入力があれば、インサートして紐付ける
+            $tag_exists = Tag::where('user_id', '=', \Auth::id())->where('name', '=', $posts['new_tag'])->exists();
+           if(!empty($posts['new_tag']) && !$tag_exists ){
+            $tag_id = Tag::insertGetId(['user_id' => \Auth::id(), 'name' => $posts['new_tag']]);
+            MemoTag::insert(['memo_id' => $posts['memo_id'], 'tag_id' => $tag_id]);
+        }
+
         });
         //whereがないと全てのデータがupdateされてしまう
 
