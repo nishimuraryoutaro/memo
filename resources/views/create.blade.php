@@ -8,6 +8,9 @@
         <div class="form-group">
             <textarea class="form-control" name="content" rows="3" placeholder="ここに入力"></textarea>
         </div>
+        @error('content')
+            <div class="alert alert-danger">メモ内容を入力してください</div>
+        @enderror
     @foreach ( $tags as $t )
             <div class="form-check form-switch">
                 {{-- テェックボックスで複数の値を送りたい時 name="tags[]"--}}

@@ -37,6 +37,10 @@ class HomeController extends Controller
     public function store(Request $request)
     {
         $posts = $request->all();
+        //バリデーション 'content' = viewのname属性
+        $request->validate(['content' => 'required']);
+        //バリデーション
+
         //データベースに入れるにはinsertを使う(配列で定義)
         //カラム名かkey=>'content'と'user_id,, value=取ってき値($postsとAuth::id)
         //\Auth::idはログインしている人のid
@@ -91,6 +95,8 @@ class HomeController extends Controller
     public function update(Request $request)
     {
         $posts = $request->all();
+        //バリデーション 'content' = viewのname属性
+        $request->validate(['content' => 'required']);
         //トランザクション
            DB::transaction(function () use($posts){
            Memo::where('id', $posts['memo_id'])->update(['content' => $posts['content']]);
