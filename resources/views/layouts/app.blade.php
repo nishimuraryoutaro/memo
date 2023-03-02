@@ -79,10 +79,13 @@
             <div class="row">
                 <div class="col-md-6 p-0">
                     <div class="card">
-                        <h5 class="card-header">1</h5>
+                        <h5 class="card-header">タグの一覧</h5>
                         <div class="card-body">
-                          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <a href="/"class="card-text d-block">全てのタグ</a>
+                        @foreach ( $tags as $tag )
+                            <a href="/?tag={{$tag['id']}}"class="card-text d-block">{{ $tag['name'] }}</a>
+                        @endforeach
+                          {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
                         </div>
                     </div>
                 </div>
