@@ -11,13 +11,16 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://example.com/fontawesome/v6.3.0/js/all.js" data-family-prefix="icon"></script>
 
+    @yield('javascript')
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+   <link rel="dns-prefetch" href="//fonts.gstatic.com">
+   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="/css/layout.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -77,13 +80,13 @@
 
         <main class="">
             <div class="row">
-                <div class="col-md-6 p-0">
+                <div class="col-sm-12 col-md-6 p-0">
                     <div class="card">
                         <h5 class="card-header">タグの一覧</h5>
-                        <div class="card-body">
-                        <a href="/"class="card-text d-block">全てのタグ</a>
+                        <div class="card-body my-card-body">
+                        <a href="/"class="card-text d-block mb-2">全てのタグ</a>
                         @foreach ( $tags as $tag )
-                            <a href="/?tag={{$tag['id']}}"class="card-text d-block">{{ $tag['name'] }}</a>
+                            <a href="/?tag={{$tag['id']}}"class="card-text d-block ellipse mb-2">{{ $tag['name'] }}</a>
                         @endforeach
                           {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
                         </div>
@@ -91,10 +94,10 @@
                 </div>
                 <div class="col-md-6 p-0">
                     <div class="card">
-                        <h5 class="card-header">2</h5>
-                        <div class="card-body">
+                        <h5 class="card-header">メモ一覧 <a href="{{ route('home') }}"><i class="fa-solid fa-house"></i></a></h5>
+                        <div class="card-body my-card-body">
                           @foreach ( $memos as $memo )
-                            <a href="/edit/{{$memo['id']}}"class="card-text d-block">{{ $memo['content'] }}</a>
+                            <a href="/edit/{{$memo['id']}}"class="card-text d-block ellipse mb-2">{{ $memo['content'] }}</a>
                           @endforeach
                           {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
                         </div>

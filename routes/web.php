@@ -21,6 +21,8 @@ Route::post('/store', [HomeController::class, 'store'])
 ->name('store');
 Route::get('/edit/{id}', [HomeController::class, 'edit'])
 ->name('edit');
+Route::post('/edit/{id}', [HomeController::class, 'edit'])
+->name('edit');
 Route::post('/update', [HomeController::class, 'update'])
 ->name('update');
 Route::get('/update', [HomeController::class, 'update'])

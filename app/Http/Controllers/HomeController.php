@@ -122,10 +122,10 @@ class HomeController extends Controller
     public function destory(Request $request)
     {
         $posts = $request->all();
-        //dd($posts);
         //whereがないと全てのデータがupdateされてしまう
         //->delete(['content' => $posts['content']]);だと物理削除になってしまうのでダメ
-        Memo::where('id', $posts['memo_id'])->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
+        Memo::where('id', $posts['memo_id'])
+        ->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
         return redirect( route('home') );
 
     }

@@ -14,7 +14,6 @@ class Memo extends Model
         $query = Memo::query()->select('memos.*')
          //使っているuser_idがログインしているuserと一致するところ
         ->where('user_id', '=', \Auth::id())
-        //deleted_atが空だけのもの
         ->whereNull('deleted_at')
         ->orderBy('updated_at', 'DESC');//ASC小さい順 DESC大きい順
 
