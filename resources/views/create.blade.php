@@ -19,7 +19,10 @@
             </div>
     @endforeach
         <input type="text" class="form-control w-50 mb-3" name="new_tag" placeholder="新規タグ"/>
-        <button type="submit" class="btn btn-primary">WWWW</button>
+        {{-- <button type="submit" class="btn btn-primary">WWWW</button> --}}
+        <div class="p-2 w-full">
+            <button type="submit" class="flex mx-auto text-white btn btn-primary bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">追加</button>
+        </div>
     </form>
 </div>
 @endsection
