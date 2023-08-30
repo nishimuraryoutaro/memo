@@ -12,6 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://example.com/fontawesome/v6.3.0/js/all.js" data-family-prefix="icon"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
     @yield('javascript')
     <!-- Fonts -->
@@ -100,6 +101,10 @@
                         </div>
                     </div>
                 </div>
+                @if(session('status'))
+                <div class="alert alert-success text-center">{{ session('status') }}</div>
+                @endif
+
                 <div class="col-md-12">
                     <h5 class="card-header"></h5>
                     @yield('content')
@@ -107,5 +112,6 @@
             </div>
         </main>
     </div>
+    @yield('script')
 </body>
 </html>

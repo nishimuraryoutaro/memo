@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ScheduleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,3 +30,7 @@ Route::get('/update', [HomeController::class, 'update'])
 ->name('update');
 Route::post('/destory', [HomeController::class, 'destory'])
 ->name('destory');
+
+
+Route::resource('/shedules', ScheduleController::class);
+Route::put('/schedules/{schedule}/updateByCalendar', [ScheduleController::class, 'updateByCalendar'])->name('schedules.updateByCalendar');
