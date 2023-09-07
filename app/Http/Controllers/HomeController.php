@@ -45,9 +45,10 @@ class HomeController extends Controller
         //\Auth::idはログインしている人のid
         //homeにリダイレクト
         //insertすると同時にテーブルに入れたidを取得
-    //タグ機能のトランザクション
+    //タグ機能のトランザクショ()
         DB::transaction(function() use($posts){
             $memo_id = Memo::insertGetId(['content' => $posts['content'],'user_id' =>\Auth::id()]);
+            //同じタグがあるかどうか
             $tag_exists = Tag::where('user_id', '=', \Auth::id())->where('name', '=', $posts['new_tag'])->exists();
             if(!empty($posts['new_tag']) && !$tag_exists ){
                 $tag_id = Tag::insertGetId(['user_id' => \Auth::id(), 'name' => $posts['new_tag']]);
