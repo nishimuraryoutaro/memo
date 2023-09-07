@@ -8,7 +8,7 @@
                 <div class="card-header">スケージュール登録</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('schedules.store') }}">
+                    <form method="POST" action="{{ route('schedule.store') }}">
                         @csrf
 
                         <div class="row mb-3">

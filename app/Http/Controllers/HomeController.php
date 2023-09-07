@@ -40,7 +40,6 @@ class HomeController extends Controller
         //バリデーション 'content' = viewのname属性
         $request->validate(['content' => 'required']);
         //バリデーション
-
         //データベースに入れるにはinsertを使う(配列で定義)
         //カラム名かkey=>'content'と'user_id,, value=取ってき値($postsとAuth::id)
         //\Auth::idはログインしている人のid
@@ -77,7 +76,7 @@ class HomeController extends Controller
             //deleted_atが空だけのもの
             ->get();
         //含まれるタグだけを注視う
-
+    
 
         $include_tags = [];
         foreach($edit_memo as $memo){
@@ -96,7 +95,7 @@ class HomeController extends Controller
     {
         $posts = $request->all();
         //バリデーション 'content' = viewのname属性
-        $request->validate(['content' => 'required']);
+        $request->validate(['content' => 'required', 'tags' => 'required']);
         //トランザクション
            DB::transaction(function () use($posts){
            Memo::where('id', $posts['memo_id'])->update(['content' => $posts['content']]);
@@ -126,6 +125,7 @@ class HomeController extends Controller
         //->delete(['content' => $posts['content']]);だと物理削除になってしまうのでダメ
         Memo::where('id', $posts['memo_id'])
         ->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
+        
         return redirect( route('home') );
 
     }

@@ -22,12 +22,13 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="/css/layout.css" rel="stylesheet">
-</head>
+</head> 
 <body>
-    <div id="app">
+    <div id="app" class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                
+                <a class="navbar-brand flex flex-col text-center w-full mb-20" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -95,7 +96,7 @@
                         <h5 class="card-header">メモ一覧 <a href="{{ route('home') }}"><i class="fa-solid fa-house"></i></a></h5>
                         <div class="card-body my-card-body">
                           @foreach ( $memos as $memo )
-                            <a href="/edit/{{$memo['id']}}"class="card-text d-block ellipse mb-2">{{ $memo['content'] }}</a>
+                            <a href="/edit/{{$memo['id']}}"class="card-text d-block">{{ $memo['content'] }}</a>
                           @endforeach
                           {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
                         </div>
@@ -113,5 +114,7 @@
         </main>
     </div>
     @yield('script')
+    
 </body>
+
 </html>

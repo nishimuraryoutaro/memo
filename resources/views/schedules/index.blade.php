@@ -1,6 +1,40 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app') --}}
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-@section('content')
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://example.com/fontawesome/v6.3.0/js/all.js" data-family-prefix="icon"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+        @section('javascript')
+        <script src="/js/confirm.js"></script>
+        @endsection
+    @yield('javascript')
+    <!-- Fonts -->
+   <link rel="dns-prefetch" href="//fonts.gstatic.com">
+   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="/css/layout.css" rel="stylesheet">
+</head>
+<div id="app">
+    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <div class="container navbar-brand mb-0 h1">
+                カレンダー
+        </div>
+    </nav>
+    <div class="row">
+    <div class="col-sm-12">
+        <div class="card mb-0">
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -14,7 +48,10 @@
         </div>
     </div>
 </div>
-@endsection
+</div>
+{{-- @section('content') --}}
+
+{{-- @endsection --}}
 
 @section('script')
 <style>
@@ -34,7 +71,6 @@
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const events = @json($events);
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
@@ -104,4 +140,4 @@
             });
         }
         </script>
-@endsection
+{{-- @endsection --}}

@@ -34,7 +34,7 @@ class ScheduleController extends Controller
     public function store(Request $request) 
     {
         $request->merge(['user_id' => auth()->id()]);
-        schedule::create($request->all());
+        Schedule::create($request->all());
         return back()->with('status','登録しました');
     }
     public function edit(Schedule $schedule)

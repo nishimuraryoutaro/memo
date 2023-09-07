@@ -31,6 +31,7 @@ Route::get('/update', [HomeController::class, 'update'])
 Route::post('/destory', [HomeController::class, 'destory'])
 ->name('destory');
 
-
-Route::resource('/shedules', ScheduleController::class);
-Route::put('/schedules/{schedule}/updateByCalendar', [ScheduleController::class, 'updateByCalendar'])->name('schedules.updateByCalendar');
+Route::get('/shedules', [ScheduleController::class, 'index'])->name('index');
+Route::get('/shedules/create', [ScheduleController::class, 'store'])->name('store');
+Route::resource('/shedules/store', ScheduleController::class);
+// Route::put('/schedules/{schedule}/updateByCalendar', [ScheduleController::class, 'updateByCalendar'])->name('schedules.updateByCalendar');
